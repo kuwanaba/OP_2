@@ -16,7 +16,9 @@
  * =====================================================================================
  */
 
-// TODO: Finish up the data input
+// TODO: Modify the program to react to empty new lines and output a '-' everytime
+
+
 #include <iostream>
 
 
@@ -36,7 +38,7 @@ int main(void)
     Students students[10];
     
     bool inputing_data = true;
-    unsigned student_iterator = 0;
+    size_t student_iterator = 0;
     while (inputing_data) {
 
         cout << "Jei norite baigti įvedimą įveskite 'x'\n";
@@ -73,7 +75,7 @@ int main(void)
             getline(cin, foo);
 
             if (is_valid_string(foo)) {
-                students[student_iterator++].last_name = foo;
+                students[student_iterator].last_name = foo;
                 break;
 
             } else {
@@ -87,8 +89,66 @@ int main(void)
         //---------------------------------------------------------------------
         // Inputting studet scores
 
+        cout << endl << "Jei norite baigti įvedimą įveskite '-1'\n";
+        cout << "Įveskite namu darbų rezultatus:\n";
 
-        
+        int score;
+        while (true) {
+            
+            cout << " - ";
+            while (!(cin >> score)) {
+
+                cout << "Neteisingai įvestas pažymys.\n";
+                cout << " - ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }  
+
+            if (score == -1) {
+                break;
+            }
+            else if (0 < score && score <= 10) {
+                students[student_iterator].scores[students[student_iterator].score_count++] = score;
+            }
+            else {
+
+                cout << "Neteisingai įvestas pažymys.\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
+
+        cout << endl << "Įveskite egzamino rezultatą: ";
+        while (true) {
+
+            cout << " - ";
+            while (!(cin >> score)) {
+
+                cout << "Neteisingai įvestas pažymys.\n";
+                cout << " - ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }  
+
+            if (score == -1) {
+                break;
+            }
+            else if (0 < score && score <= 10) {
+                students[student_iterator].scores[students[student_iterator].score_count++] = score;
+                break;
+            }
+            else {
+
+                cout << "Neteisingai įvestas pažymys.\n";
+                cout << " - ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
+
+        cin.clear();
+        cin.ignore(10000, '\n');
+        student_iterator++;
     } 
 
     print_students(students, student_iterator);

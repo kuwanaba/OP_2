@@ -29,10 +29,14 @@ struct Students {
     string first_name;                                                          
     string last_name;                                                           
 
-     int scores[10];                                                             
+    int scores[10];                                                             
+    int score_count;
 }; 
 
 
 bool is_valid_string(const std::string& foo);
 void print_students(const Students students[], std::size_t array_size);
+bool is_valid_score(int grade);
+
+
 #endif
