@@ -21,6 +21,13 @@
 #include <string>
 #include <cctype>
 #include <iostream>
+#include <iomanip>
+
+
+using std::cout;
+using std::endl;
+using std::setw;
+using std::left;
 
 
 bool is_valid_string(const std::string& foo)
@@ -52,18 +59,19 @@ bool is_valid_score(int grade)
 
 void print_students(const Students students[], std::size_t array_size)
 {
-    std::cout << std::endl;
+    cout << endl;
+    cout << setw(15) << left << "Pavardė";
+    cout << setw(15) << left << "Vardas";
+    cout << "Galutinis (Vid.)" << endl;
+
+    string temp(45, '-');
+    cout << temp << endl;
     for (std::size_t i{}; i != array_size; i++) {
-
-        std::cout << "Vardas - " << students[i].first_name << std::endl;
-        std::cout << "Pavarde - " << students[i].last_name << std::endl;
-        std::cout << "Pažymių skaičius - " << students[i].score_count << std::endl;
-
-        for (std::size_t j{}; j != students[i].score_count; j++)
-            std::cout << students[i].scores[j] << " ";
-
-        std::cout << std::endl;
+        cout << setw(15) << left << students[i].first_name; 
+        cout << setw(15) << left << students[i].last_name; 
+        cout << setw(15) << left << students[i].final_score;
+        cout << endl;
     }
 
-    std::cout << std::endl;
+    cout << endl;
 }

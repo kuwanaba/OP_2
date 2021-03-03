@@ -17,6 +17,7 @@
  */
 
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
+// TODO: Define what happens when no scores are entered
 
 
 #include <iostream>
@@ -87,14 +88,16 @@ int main(void)
 
 
         //---------------------------------------------------------------------
-        // Inputting studet scores
+        // Inputting student scores
 
         cout << endl << "Jei norite baigti įvedimą įveskite '-1'\n";
         cout << "Įveskite namu darbų rezultatus:\n";
 
         int score;
+        size_t score_count = 0;
         while (true) {
             
+
             cout << " - ";
             while (!(cin >> score)) {
 
@@ -108,7 +111,7 @@ int main(void)
                 break;
             }
             else if (0 < score && score <= 10) {
-                students[student_iterator].scores[students[student_iterator].score_count++] = score;
+                students[student_iterator].scores[score_count++] = score;
             }
             else {
 
@@ -117,12 +120,13 @@ int main(void)
                 cin.ignore(10000, '\n');
             }
         }
+        students[student_iterator].score_count = score_count;
 
         cout << endl << "Įveskite egzamino rezultatą: ";
         while (true) {
 
             cout << " - ";
-            while (!(cin >> score)) {
+            while (!(cin >> score) || !(0 < score && score <= 10)) {
 
                 cout << "Neteisingai įvestas pažymys.\n";
                 cout << " - ";
@@ -130,26 +134,28 @@ int main(void)
                 cin.ignore(10000, '\n');
             }  
 
-            if (score == -1) {
-                break;
-            }
-            else if (0 < score && score <= 10) {
-                students[student_iterator].scores[students[student_iterator].score_count++] = score;
-                break;
-            }
-            else {
-
-                cout << "Neteisingai įvestas pažymys.\n";
-                cout << " - ";
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
+            students[student_iterator].test_score = score;
+            break;
         }
 
         cin.clear();
         cin.ignore(10000, '\n');
         student_iterator++;
     } 
+
+    //------------------------------------------------------------------------
+    // Calculating averages
+
+
+    for (size_t i = 0; i != student_iterator; i++) {
+        
+        float average = 0;
+        for (size_t j = 0; j != students[i].score_count; j++) {
+            average += students[i].scores[j];
+        }
+        average /= students[i].score_count;
+        students[i].final_score = 0.4 * average + 0.6 * students[i].test_score;
+    }
 
     print_students(students, student_iterator);
 
