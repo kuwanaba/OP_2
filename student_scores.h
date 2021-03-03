@@ -43,6 +43,7 @@ struct Students {
 bool is_valid_string(const std::string& foo);
 void print_students(const Students students[], std::size_t array_size);
 bool is_valid_score(int grade);
+void calculate_scores(Students students[], std::size_t array_size, unsigned option);
 
 
 #endif

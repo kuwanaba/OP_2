@@ -141,22 +141,23 @@ int main(void)
         cin.clear();
         cin.ignore(10000, '\n');
         student_iterator++;
+        cout << endl;
     } 
 
     //------------------------------------------------------------------------
     // Calculating averages
 
-
-    for (size_t i = 0; i != student_iterator; i++) {
-        
-        float average = 0;
-        for (size_t j = 0; j != students[i].score_count; j++) {
-            average += students[i].scores[j];
-        }
-        average /= students[i].score_count;
-        students[i].final_score = 0.4 * average + 0.6 * students[i].test_score;
+    cout << "Ar norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
+    cout << " - ";
+    unsigned option;
+    while (!(cin >> option)) {
+        cout << "Įveskite arba 1 arba 2.\n";
+        cout << " - ";        
+        cin.clear();
+        cin.ignore(10000, '\n');
     }
 
+    calculate_scores(students, student_iterator, option);
     print_students(students, student_iterator);
 
     return 0;
