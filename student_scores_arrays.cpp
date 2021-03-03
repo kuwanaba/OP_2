@@ -23,6 +23,9 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <cstdio>
+#include <random>
+#include <chrono>
 
 
 using std::cout;
@@ -92,21 +95,30 @@ void calculate_scores(Students students[], std::size_t array_size, unsigned opti
 }
 
 
-void print_students(const Students students[], std::size_t array_size)
+void print_students(const Students students[], std::size_t array_size, int option)
 {
-    cout << endl;
-    cout << setw(20) << left << "Pavarde";
-    cout << setw(20) << left << "Vardas";
-    cout << setw(20) << left << "Galutinis (Vid.)" << endl;
+    printf("\n%-20s%-20s%-20s\n", "Pavarde", "Vardas", 
+            (option == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)");
 
     string temp(55, '-');
     cout << temp << endl;
     for (std::size_t i{}; i != array_size; i++) {
-        cout << setw(20) << left << students[i].first_name;
-        cout << setw(20) << left << students[i].last_name;
-        cout << setw(20) << left << students[i].final_score;
-        cout << endl;
+        printf("%-20s%-20s%-20.2f\n", students[i].last_name.c_str(), students[i].first_name.c_str(),
+                                        students[i].final_score);
     }
 
     cout << endl;
+}
+
+
+void generate_random_scores(Students& student, unsigned num_of_scores)
+{
+    using hrClock = std::chrono::high_resolution_clock;
+    std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
+    std::uniform_int_distribution<int> dist(1, 10);
+    for (int i{}; i < num_of_scores - 1; i++) {
+        student.scores[i] = dist(mt);
+    }
+
+    student.test_score = dist(mt);
 }
