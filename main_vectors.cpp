@@ -4,7 +4,7 @@
  *       Filename:  main_vectors.cpp
  *
  *    Description:  Program to input student names with scores and calculate
- *    their finals
+ *                  their finals
  *
  *        Version:  0.1v
  *        Created:  2021-03-02 20:03:24
