@@ -4,7 +4,7 @@
  *       Filename:  main_vectors.cpp
  *
  *    Description:  Program to input student names with scores and calculate
- *    their finals
+ *                  their finals
  *
  *        Version:  0.1v
  *        Created:  2021-03-02 20:03:24
@@ -58,7 +58,7 @@ int main(void)
             if (is_valid_string(foo)) {
 
                 // Checking to see if user indicate end of student input
-                if (tolower(foo[0]) == 'x') {
+                if (foo == "x") {
                     inputing_data = false;
                     break;
                 }
@@ -121,7 +121,7 @@ int main(void)
 
 
             unsigned amount;
-            while (!(cin >> amount) || (1 > amount && amount <= 10)) {
+            while (!(cin >> amount) || !(1 <= amount && amount <= 10)) {
 
                 cout << "\nNeteisingai įvestas kiekis.\n";
                 cout << " - ";
@@ -136,6 +136,7 @@ int main(void)
                 student.scores.push_back(score);
                 cout << score << " ";
             }
+            cout << endl;
         } 
 
         else {
@@ -151,7 +152,6 @@ int main(void)
                 while (!(cin >> score)) {
 
                     cout << "\nNeteisingai įvestas pažymys.\n";
-                    cout << " - ";
                     cin.clear();
                     cin.ignore(10000, '\n');
                 }  
@@ -171,9 +171,6 @@ int main(void)
                     cin.ignore(10000, '\n');
                 }
             }
-
-
-
         }
 
 
@@ -200,7 +197,7 @@ int main(void)
         if (selection == "y") {
             
             student.test_score = generate_random_score();
-            cout << "\nEgzamino pažymys: " << student.test_score;
+            cout << "\nEgzamino pažymys: " << student.test_score << endl;
         }
         else {
 
@@ -209,7 +206,7 @@ int main(void)
             while (true) {
 
                 cout << " - ";
-                while (!(cin >> score) || !(0 < score && score <= 10)) {
+                while (!(cin >> score) || !(1 <= score && score <= 10)) {
 
                     cout << "\nNeteisingai įvestas pažymys.\n";
                     cout << " - ";
