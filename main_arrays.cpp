@@ -20,6 +20,7 @@
 
 
 #include <iostream>
+#include <string>
 
 
 #include "student_scores.hpp"
