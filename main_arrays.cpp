@@ -47,7 +47,7 @@ int main(void)
     size_t student_iterator = 0;
     while (inputing_data) {
 
-        cout << "Jei norite baigti įvedimą įveskite 'x'\n";
+        cout << "\nJei norite baigti įvedimą įveskite 'x'\n";
         cout << "Įveskite studento vardą.\n"; 
         cout << " - ";
 
@@ -58,7 +58,7 @@ int main(void)
             if (is_valid_string(foo)) {
 
                 // Checking to see if user indicate end of student input
-                if (tolower(foo[0]) == 'x') {
+                if (foo == "x") {
                     inputing_data = false;
                     break;
                 }
@@ -100,10 +100,11 @@ int main(void)
         // Inputting student scores
 
 
-        cout << "\nAr norite sugeneruoti pažymius atsitiktinai?(y/n).\n";
+        cout << "\nAr norite sugeneruoti namų darbų rezultatus atsitiktinai?(y/n).\n";
         cout << " - ";
         string selection;
         cin >> selection;
+        size_t score_count = 0;
         while (selection != "y" && selection != "n") {
             cout << "\nBandykite dar kartą.\n";
             cout << " - ";
@@ -120,17 +121,22 @@ int main(void)
             cout << " - "; 
 
 
-            unsigned amount;
-            while (!(cin >> amount) || (1 > amount && amount <= 10)) {
+            int amount;
+            while (!(cin >> amount) || !(1 <= amount && amount <= 10)) {
 
                 cout << "\nNeteisingai įvestas kiekis.\n";
                 cout << " - ";
                 cin.clear();
                 cin.ignore(10000, '\n');
             }  
-             
-            generate_random_scores(students[student_iterator], amount);
-            students[student_iterator].score_count = amount - 1;
+            
+
+            cout << "\nNamų darbų pažymiai: ";
+            for (int i{}; i < amount; i++) {
+                students[student_iterator].scores[score_count] = generate_random_score();
+                cout << students[student_iterator].scores[score_count++] << " ";
+            }
+            cout << endl << endl;
         } 
 
         else {
@@ -139,7 +145,6 @@ int main(void)
             cout << "Įveskite namu darbų rezultatus.\n";
 
             int score;
-            size_t score_count = 0;
             while (true) {
                 
 
@@ -153,6 +158,7 @@ int main(void)
                 }  
 
                 if (score == -1) {
+                    cout << endl << endl;
                     break;
                 }
                 else if (0 < score && score <= 10) {
@@ -170,15 +176,42 @@ int main(void)
                     cin.ignore(10000, '\n');
                 }
             }
-            students[student_iterator].score_count = score_count;
+        }
+
+        students[student_iterator].score_count = score_count;
+
+        // If no values were inputted for a student skip the test score
+        if (students[student_iterator].score_count == 0) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
 
 
+        cout << "\nAr norite sugeneruoti egzamino rezultatą atsitiktinai?(y/n).\n";
+        cout << " - ";
+        cin >> selection;
+        while (selection != "y" && selection != "n") {
+            cout << "\nBandykite dar kartą\n";
+            cout << " - ";
+            cin.clear();
+            cin.ignore(10000, '\n');
 
-            // If no values were inputted for a student skip the test score
-            if (students[student_iterator].score_count == 0)
-                break;
+            cin >> selection;
+        }
+
+
+        if (selection == "y") {
+           
+
+            students[student_iterator].test_score = generate_random_score();
+            cout << "\nEgzamino pažymys: " << students[student_iterator].test_score << endl << endl;
+        }
+        else {
+
 
             cout << "\nĮveskite egzamino rezultatą.\n";
+            unsigned score;
             while (true) {
 
                 cout << " - ";
@@ -209,6 +242,13 @@ int main(void)
 
     //------------------------------------------------------------------------
     // Calculating averages
+
+
+    if (student_iterator == 0) {
+        cout << "\nNeįvestas nei vienas studentas.\n";
+        return 0;
+    }
+
 
     cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
     cout << " - ";

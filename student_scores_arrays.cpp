@@ -104,7 +104,7 @@ void print_students(const Students students[], std::size_t array_size, int optio
     printf("\n%-20s%-20s%-20s\n", "Pavarde", "Vardas", 
             (option == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)");
 
-    string temp(55, '-');
+    string temp(60, '-');
     cout << temp << endl;
     for (std::size_t i{}; i != array_size; i++) {
 
@@ -119,19 +119,11 @@ void print_students(const Students students[], std::size_t array_size, int optio
 }
 
 
-void generate_random_scores(Students& student, unsigned num_of_scores)
+unsigned generate_random_score()
 {
     using hrClock = std::chrono::high_resolution_clock;
     std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
     std::uniform_int_distribution<int> dist(1, 10);
-
-    cout << "\nSugeneruoti pažymiai:\nNamų darbai: ";
-    for (int i{}; i < num_of_scores - 1; i++) {
-        student.scores[i] = dist(mt);
-        cout << student.scores[i] << " ";
-    }
-
-    cout << "\nEgzaminas: ";
-    student.test_score = dist(mt);
-    cout << student.test_score << endl;
+    
+    return dist(mt);
 }
