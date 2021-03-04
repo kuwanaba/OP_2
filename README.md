@@ -10,7 +10,7 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
  - `git clone git@github.com:kuwanaba/OP_2.git`
  - `cd OP_2`
  - `g++ main_vectors.cpp student_scores_vectors.cpp -o main`
- - `/.main
+ - `/.main`
  
  
 ## Changelog
