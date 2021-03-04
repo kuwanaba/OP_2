@@ -32,6 +32,7 @@ using std::cout;
 using std::endl;
 using std::setw;
 using std::left;
+using std::vector;
 
 
 bool is_valid_string(const std::string& foo)
@@ -62,76 +63,70 @@ bool is_valid_score(int grade)
 
 
 
-void calculate_scores(Students students[], std::size_t array_size, unsigned option)
+void calculate_scores(vector<Students>& students, unsigned option)
 {
-    for (std::size_t i{}; i != array_size; i++) {
+    for (auto &student : students) {
 
-
-        if (students[i].score_count == 0)
+        if (student.scores.empty())
             continue;
 
         // Calculating average
         if (option == 1) {
 
             float average = 0;
-            for (std::size_t j{}; j != students[i].score_count; j++) {
-                average += students[i].scores[j];    
+            for (auto &score : student.scores) {
+                average += score;    
             }
-            average /= students[i].score_count;
+            average /= student.scores.size();
 
-            students[i].final_score = 0.4 * average + 0.6 * students[i].test_score;
+            student.final_score = 0.4 * average + 0.6 * student.test_score;
         }
         // Calculating median
         else {
 
             float median;
-            std::sort(students[i].scores, students[i].scores + array_size);
-            if (array_size % 2 == 0) {
-                median = ((float)students[i].scores[array_size / 2] +
-                        (float)students[i].scores[array_size / 2 - 1]) / 2;
+            auto mid = student.scores.begin() + student.scores.size() / 2;
+            std::sort(student.scores.begin(), student.scores.end());
+            if (student.scores.size() % 2 == 0) {
+                //unsigned mid = student.scores.size() / 2;
+                //median = ((float)student.scores[mid] + (float)student.scores[mid - 1]) / 2;
+                auto mid = student.scores.begin() + student.scores.size() / 2;
+                median = ((float)*mid + (float)*(mid - 1)) / 2;
             }            
             else {
-                    median = students[i].scores[array_size / 2]; 
+                    median = *mid;
             }
-            students[i].final_score = 0.4 * median + 0.6 * students[i].test_score;
+            student.final_score = 0.4 * median + 0.6 * student.test_score;
         }
     }
 }
 
 
-void print_students(const Students students[], std::size_t array_size, int option)
+void print_students(const vector<Students>& students, int option)
 {
     printf("\n%-20s%-20s%-20s\n", "Pavarde", "Vardas", 
             (option == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)");
 
     string temp(55, '-');
     cout << temp << endl;
-    for (std::size_t i{}; i != array_size; i++) {
+    for (const auto& student : students) {
 
-        if (students[i].score_count == 0)
+        if (student.scores.empty())
             continue;
 
-        printf("%-20s%-20s%-20.2f\n", students[i].last_name.c_str(), students[i].first_name.c_str(),
-                                        students[i].final_score);
+        printf("%-20s%-20s%-20.2f\n", student.last_name.c_str(), student.first_name.c_str(),
+                                        student.final_score);
     }
 
     cout << endl;
 }
 
 
-void generate_random_scores(Students& student, unsigned num_of_scores)
+unsigned generate_random_score()
 {
     using hrClock = std::chrono::high_resolution_clock;
     std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
     std::uniform_int_distribution<int> dist(1, 10);
 
-    cout << "\nSugeneruoti pažymiai:\nNamų darbai: ";
-    for (int i{}; i < num_of_scores - 1; i++) {
-        student.scores[i] = dist(mt);
-        cout << student.scores[i] << " ";
-    }
-
-    cout << "\nEgzaminas: ";
-    student.test_score = dist(mt);
-    cout << student.test_score << endl;
+    return dist(mt);
 }

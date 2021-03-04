@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  main_arrays.cpp
+ *       Filename:  main_vectors.cpp
  *
  *    Description:  Program to input student names with scores and calculate
  *    their finals
@@ -17,40 +17,40 @@
  */
 
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
+// TODO: Explore ways of changing how the program iterates the vectors
+// TODO: Clean up identation in spacing of output
 
 
 #include <iostream>
+#include <string>
+#include <vector>
 
 
 #include "student_scores.hpp"
+
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
-
+using std::vector;
 
 
 
 int main(void)
 {
      
-    Students *students;
-    unsigned array_size = 10;
-    students = new Students[array_size];
+    vector<Students> students;
 
-    unsigned score_array_size = 10;
-    for (int i{}; i < array_size; i++)
-        students[i].scores = new unsigned[score_array_size];
-    
     bool inputing_data = true;
     size_t student_iterator = 0;
     while (inputing_data) {
 
-        cout << "Jei norite baigti įvedimą įveskite 'x'\n";
+        cout << "\nJei norite baigti įvedimą įveskite 'x'\n";
         cout << "Įveskite studento vardą.\n"; 
         cout << " - ";
 
+        Students student;
         do {
             string foo;
             getline(cin, foo);
@@ -62,7 +62,7 @@ int main(void)
                     inputing_data = false;
                     break;
                 }
-                students[student_iterator].first_name = foo;
+                student.first_name = foo;
                 break;
 
             } else {
@@ -84,7 +84,7 @@ int main(void)
             getline(cin, foo);
 
             if (is_valid_string(foo)) {
-                students[student_iterator].last_name = foo;
+                student.last_name = foo;
                 break;
 
             } else {
@@ -100,7 +100,7 @@ int main(void)
         // Inputting student scores
 
 
-        cout << "\nAr norite sugeneruoti pažymius atsitiktinai?(y/n).\n";
+        cout << "\nAr norite sugeneruoti namų darbų rezultatus atsitiktinai?(y/n).\n";
         cout << " - ";
         string selection;
         cin >> selection;
@@ -128,9 +128,14 @@ int main(void)
                 cin.clear();
                 cin.ignore(10000, '\n');
             }  
-             
-            generate_random_scores(students[student_iterator], amount);
-            students[student_iterator].score_count = amount - 1;
+            
+            cout << "\nNamu darbų pažymiai: "; 
+            unsigned score;
+            for (int i{}; i < amount; i++) {
+                score = generate_random_score();
+                student.scores.push_back(score);
+                cout << score << " ";
+            }
         } 
 
         else {
@@ -139,7 +144,6 @@ int main(void)
             cout << "Įveskite namu darbų rezultatus.\n";
 
             int score;
-            size_t score_count = 0;
             while (true) {
                 
 
@@ -156,11 +160,8 @@ int main(void)
                     break;
                 }
                 else if (0 < score && score <= 10) {
+                    student.scores.push_back(score);
 
-                    if (score_count + 1 > score_array_size)
-                        students[student_iterator].scores = new unsigned[score_array_size += 10];
-
-                    students[student_iterator].scores[score_count++] = score;
                 }
                 else {
 
@@ -170,15 +171,41 @@ int main(void)
                     cin.ignore(10000, '\n');
                 }
             }
-            students[student_iterator].score_count = score_count;
 
 
 
-            // If no values were inputted for a student skip the test score
-            if (students[student_iterator].score_count == 0)
-                break;
+        }
+
+
+        // If no values were inputted for a student skip the test score
+        if (student.scores.size() == 0) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+
+
+        cout << "\nAr norite sugeneruoti egzamino rezultatą atsitiktinai?(y/n).\n";
+        cout << " - ";
+        cin >> selection;
+        while (selection != "y" && selection != "n") {
+            cout << "\nBandykite dar kartą\n";
+            cout << " - ";
+            cin.clear();
+            cin.ignore(10000, '\n');
+
+            cin >> selection;
+        }
+
+        if (selection == "y") {
+            
+            student.test_score = generate_random_score();
+            cout << "\nEgzamino pažymys: " << student.test_score;
+        }
+        else {
 
             cout << "\nĮveskite egzamino rezultatą.\n";
+            unsigned score;
             while (true) {
 
                 cout << " - ";
@@ -190,25 +217,28 @@ int main(void)
                     cin.ignore(10000, '\n');
                 }  
 
-                students[student_iterator].test_score = score;
+                student.test_score = score;
                 break;
             }
         }
 
 
+        students.push_back(student);
+
         cin.clear();
         cin.ignore(10000, '\n');
-        
-        // Dinamically increase the size of the Student array if needed
-        if (student_iterator + 1 > array_size)
-           students = new Students[array_size += 10]; 
-        
         student_iterator++;
         cout << endl;
     } 
 
     //------------------------------------------------------------------------
     // Calculating averages
+    
+
+    if (students.empty()) {
+        cout << "\nNeįvestas nei vienas studentas.\n";
+        return 0;
+    }
 
     cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
     cout << " - ";
@@ -221,8 +251,8 @@ int main(void)
     }
     
     cout << endl;
-    calculate_scores(students, student_iterator, option);
-    print_students(students, student_iterator, option);
+    calculate_scores(students, option);
+    print_students(students, option);
 
     return 0;
 }
