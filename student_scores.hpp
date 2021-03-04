@@ -20,6 +20,8 @@
 
 
 #include <string>
+#include <vector>
+
 
 using std::string;
 
@@ -28,8 +30,7 @@ struct Students {
     string first_name;                                                          
     string last_name;                                                           
 
-    unsigned *scores;                                                             
-    unsigned score_count;
+    std::vector<unsigned> scores;
 
     // Egzam score
     unsigned test_score;
@@ -40,10 +41,10 @@ struct Students {
 
 
 bool is_valid_string(const std::string& foo);
-void print_students(const Students students[], std::size_t array_size, int option);
+void print_students(const std::vector<Students>& students, int option);
 bool is_valid_score(int grade);
-void calculate_scores(Students students[], std::size_t array_size, unsigned option);
-void generate_random_scores(Students& student, unsigned num_of_scores);
+void calculate_scores(std::vector<Students>& students, unsigned option);
+unsigned generate_random_score();
 
 
 #endif
