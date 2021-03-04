@@ -17,4 +17,5 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
  
  ---
  
- 
+ ## [v0.1_arrays](https://github.com/kuwanaba/OP_2/tree/v0.1_arrays) (04/03/2021)
+ - Implementuota naudojant dinaminius C masyvus
