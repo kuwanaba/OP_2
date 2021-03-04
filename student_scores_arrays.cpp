@@ -15,7 +15,7 @@
  * =====================================================================================
  */
 
-#include "student_scores.h"
+#include "student_scores.hpp"
 
 
 #include <string>
@@ -66,6 +66,10 @@ void calculate_scores(Students students[], std::size_t array_size, unsigned opti
 {
     for (std::size_t i{}; i != array_size; i++) {
 
+
+        if (students[i].score_count == 0)
+            continue;
+
         // Calculating average
         if (option == 1) {
 
@@ -103,6 +107,10 @@ void print_students(const Students students[], std::size_t array_size, int optio
     string temp(55, '-');
     cout << temp << endl;
     for (std::size_t i{}; i != array_size; i++) {
+
+        if (students[i].score_count == 0)
+            continue;
+
         printf("%-20s%-20s%-20.2f\n", students[i].last_name.c_str(), students[i].first_name.c_str(),
                                         students[i].final_score);
     }
@@ -116,9 +124,14 @@ void generate_random_scores(Students& student, unsigned num_of_scores)
     using hrClock = std::chrono::high_resolution_clock;
     std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
     std::uniform_int_distribution<int> dist(1, 10);
+
+    cout << "\nSugeneruoti pažymiai:\nNamų darbai: ";
     for (int i{}; i < num_of_scores - 1; i++) {
         student.scores[i] = dist(mt);
+        cout << student.scores[i] << " ";
     }
 
+    cout << "\nEgzaminas: ";
     student.test_score = dist(mt);
+    cout << student.test_score << endl;
 }

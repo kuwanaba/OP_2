@@ -17,14 +17,12 @@
  */
 
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
-// TODO: Define what happens when no scores are entered
-// TODO: Clean up the identation of the output
 
 
 #include <iostream>
 
 
-#include "student_scores.h"
+#include "student_scores.hpp"
 
 using std::cout;
 using std::cin;
@@ -44,7 +42,8 @@ int main(void)
     while (inputing_data) {
 
         cout << "Jei norite baigti įvedimą įveskite 'x'\n";
-        cout << "Įveskite studento vardą: "; 
+        cout << "Įveskite studento vardą.\n"; 
+        cout << " - ";
 
         do {
             string foo;
@@ -61,7 +60,8 @@ int main(void)
                 break;
 
             } else {
-                cout << "Neteisingai įvestas vardas, bandykite dar kartelį: ";
+                cout << "\nNeteisingai įvestas vardas, bandykite dar kartelį.\n";
+                cout << " - ";
             }
 
         } while (true);
@@ -71,7 +71,8 @@ int main(void)
         if (!inputing_data)
             break;
 
-        cout << "Įveskite studento pavardę: "; 
+        cout << "\nĮveskite studento pavardę\n"; 
+        cout << " - ";
         do {
             string foo;
             getline(cin, foo);
@@ -81,7 +82,8 @@ int main(void)
                 break;
 
             } else {
-                cout << "Neteisingai įvesta pavardė, bandykite dar kartelį: ";
+                cout << "\nNeteisingai įvesta pavardė, bandykite dar kartelį.\n";
+                cout << " - ";
             }
 
         } while (true);
@@ -92,11 +94,12 @@ int main(void)
         // Inputting student scores
 
 
-        cout << "\nAr norite sugeneruoti pažymius atsitiktinai?(y/n): ";
+        cout << "\nAr norite sugeneruoti pažymius atsitiktinai?(y/n).\n";
+        cout << " - ";
         string selection;
         cin >> selection;
         while (selection != "y" && selection != "n") {
-            cout << "Bandykite dar kartą.\n";
+            cout << "\nBandykite dar kartą.\n";
             cout << " - ";
             cin.clear();
             cin.ignore(10000, '\n');
@@ -107,14 +110,14 @@ int main(void)
         if (selection == "y") {
             
 
-            cout << "Kiek norite skaičių sugeneruoti (max 10)?";
+            cout << "\nKiek norite skaičių sugeneruoti (nuo 1 iki 10)?\n";
             cout << " - "; 
 
 
             unsigned amount;
             while (!(cin >> amount) || (1 > amount && amount <= 10)) {
 
-                cout << "Neteisingai įvestas kiekis.\n";
+                cout << "\nNeteisingai įvestas kiekis.\n";
                 cout << " - ";
                 cin.clear();
                 cin.ignore(10000, '\n');
@@ -126,8 +129,8 @@ int main(void)
 
         else {
 
-            cout << endl << "Jei norite baigti įvedimą įveskite '-1'\n";
-            cout << "Įveskite namu darbų rezultatus:\n";
+            cout << "\nJei norite baigti įvedimą įveskite '-1'\n";
+            cout << "Įveskite namu darbų rezultatus.\n";
 
             int score;
             size_t score_count = 0;
@@ -137,7 +140,7 @@ int main(void)
                 cout << " - ";
                 while (!(cin >> score)) {
 
-                    cout << "Neteisingai įvestas pažymys.\n";
+                    cout << "\nNeteisingai įvestas pažymys.\n";
                     cout << " - ";
                     cin.clear();
                     cin.ignore(10000, '\n');
@@ -151,20 +154,27 @@ int main(void)
                 }
                 else {
 
-                    cout << "Neteisingai įvestas pažymys.\n";
+                    cout << "\nNeteisingai įvestas pažymys.\n";
+                    cout << " - ";
                     cin.clear();
                     cin.ignore(10000, '\n');
                 }
             }
             students[student_iterator].score_count = score_count;
 
-            cout << endl << "Įveskite egzamino rezultatą: ";
+
+
+            // If no values were inputted for a student skip the test score
+            if (students[student_iterator].score_count == 0)
+                break;
+
+            cout << "\nĮveskite egzamino rezultatą.\n";
             while (true) {
 
                 cout << " - ";
                 while (!(cin >> score) || !(0 < score && score <= 10)) {
 
-                    cout << "Neteisingai įvestas pažymys.\n";
+                    cout << "\nNeteisingai įvestas pažymys.\n";
                     cout << " - ";
                     cin.clear();
                     cin.ignore(10000, '\n');
@@ -185,16 +195,17 @@ int main(void)
     //------------------------------------------------------------------------
     // Calculating averages
 
-    cout << "Ar norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
+    cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
     cout << " - ";
     unsigned option;
     while (!(cin >> option)) {
-        cout << "Įveskite arba 1 arba 2.\n";
+        cout << "\nĮveskite arba 1 arba 2.\n";
         cout << " - ";        
         cin.clear();
         cin.ignore(10000, '\n');
     }
-
+    
+    cout << endl;
     calculate_scores(students, student_iterator, option);
     print_students(students, student_iterator, option);
 

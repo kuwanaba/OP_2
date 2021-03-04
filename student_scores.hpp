@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  headers.h
+ *       Filename:  student_scores.hpp
  *
  *    Description:  
  *
@@ -10,14 +10,13 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
- *   Organization:  
+ *         Author:  Dominykas Makūnas
  *
  * =====================================================================================
  */
 
-#ifndef STUDENT_SCORES_H
-#define STUDENT_SCORES_H
+#ifndef STUDENT_SCORES_HPP
+#define STUDENT_SCORES_HPP
 
 
 #include <string>
