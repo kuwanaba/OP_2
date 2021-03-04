@@ -35,7 +35,13 @@ using std::string;
 int main(void)
 {
      
-    Students students[10];
+    Students *students;
+    unsigned array_size = 10;
+    students = new Students[array_size];
+
+    unsigned score_array_size = 10;
+    for (int i{}; i < array_size; i++)
+        students[i].scores = new unsigned[score_array_size];
     
     bool inputing_data = true;
     size_t student_iterator = 0;
@@ -150,6 +156,10 @@ int main(void)
                     break;
                 }
                 else if (0 < score && score <= 10) {
+
+                    if (score_count + 1 > score_array_size)
+                        students[student_iterator].scores = new unsigned[score_array_size += 10];
+
                     students[student_iterator].scores[score_count++] = score;
                 }
                 else {
@@ -188,6 +198,11 @@ int main(void)
 
         cin.clear();
         cin.ignore(10000, '\n');
+        
+        // Dinamically increase the size of the Student array if needed
+        if (student_iterator + 1 > array_size)
+           students = new Students[array_size += 10]; 
+        
         student_iterator++;
         cout << endl;
     } 

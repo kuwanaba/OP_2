@@ -28,11 +28,11 @@ struct Students {
     string first_name;                                                          
     string last_name;                                                           
 
-    int scores[10];                                                             
-    int score_count;
+    unsigned *scores;                                                             
+    unsigned score_count;
 
     // Egzam score
-    int test_score;
+    unsigned test_score;
 
     // Final score of the whole subject
     float final_score;
