@@ -21,20 +21,11 @@
 // TODO: Clean up identation in spacing of output
 
 
-#include <iostream>
-#include <string>
-#include <vector>
+#include "student_task_lib.hpp"
 
 
-#include "student_scores.hpp"
-
-
-using std::cout;
 using std::cin;
-using std::endl;
 using std::string;
-using std::vector;
-
 
 
 int main(void)

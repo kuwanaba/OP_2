@@ -19,16 +19,20 @@
 #define STUDENT_SCORES_HPP
 
 
-#include <string>
 #include <vector>
-
-
-using std::string;
+#include <string>
+#include <cctype>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <cstdio>
+#include <random>
+#include <chrono>
 
 
 struct Students {                                                               
-    string first_name;                                                          
-    string last_name;                                                           
+    std::string first_name;                                                          
+    std::string last_name;                                                           
 
     std::vector<unsigned> scores;
 

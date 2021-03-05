@@ -15,17 +15,7 @@
  * =====================================================================================
  */
 
-#include "student_scores.hpp"
-
-
-#include <string>
-#include <cctype>
-#include <iostream>
-#include <iomanip>
-#include <algorithm>
-#include <cstdio>
-#include <random>
-#include <chrono>
+#include "student_task_lib.hpp"
 
 
 using std::cout;
