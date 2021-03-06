@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  main_vectors.cpp
+ *       Filename:  main.cpp
  *
  *    Description:  Program to input student names with scores and calculate
  *                  their finals
@@ -18,7 +18,8 @@
 
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
 // TODO: Explore ways of changing how the program iterates the vectors
-// TODO: Clean up identation in spacing of output
+// TODO: Explore ways of refactoring the code so that the program doesn't act
+//       in a linear way and the user has more control of what and when to do
 
 
 #include "student_task_lib.hpp"
@@ -31,17 +32,97 @@ using std::string;
 int main(void)
 {
      
-    vector<Students> students;
+    vector<Student> students;
 
     bool inputing_data = true;
     size_t student_iterator = 0;
+
+
+    cout << "\nAr norite nuskaityti duomenis iš failo?(y/n)\n";
+    cout << " - ";
+
+    string selection;
+    cin >> selection;
+    while ( selection != "y" && selection != "n") {
+        cout << "\nBandykite dar kartą.\n";
+        cout << " - ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cin >> selection;
+    }
+
+
+    if (selection == "y") {
+        
+        ifstream student_file ("kursiokai.txt");
+        if (student_file.is_open()) {
+
+            cout << endl;
+            string line;
+            
+            // Skip the first line
+            getline(student_file, line);
+
+            while (getline(student_file, line) && !line.empty()) {
+
+
+                std::istringstream ss(line);
+
+                Student student;
+                ss >> student.first_name;
+                ss >> student.last_name;
+
+                
+                unsigned score;
+                while (ss >> score) {
+                    student.scores.push_back(score);
+                }
+
+                // After reading all of the scores thaat are present on a line
+                // we assign the last one which is acutally the test score
+                // to the appropriate member and pop it out of the wrong vector
+                student.test_score = score;
+                student.scores.pop_back();
+
+
+                students.push_back(student); 
+            }
+
+
+            cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
+            cout << " - ";
+            unsigned option;
+            while (!(cin >> option)) {
+                cout << "\nĮveskite arba 1 arba 2.\n";
+                cout << " - ";        
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+
+            
+            calculate_scores(students, option);
+            std::sort(students.begin(), students.end(), compare_by_first_letter);
+            print_students(students, option);
+            student_file.close();
+        }
+        else {
+            
+            cout << "Unable to open file\n";
+            return -1;
+        }
+        return 0;
+    }
+
+
+    cin.clear();
+    cin.ignore(10000, '\n');
     while (inputing_data) {
 
         cout << "\nJei norite baigti įvedimą įveskite 'x'\n";
         cout << "Įveskite studento vardą.\n"; 
         cout << " - ";
 
-        Students student;
+        Student student;
         do {
             string foo;
             getline(cin, foo);

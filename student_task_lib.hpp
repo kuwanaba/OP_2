@@ -28,13 +28,24 @@
 #include <cstdio>
 #include <random>
 #include <chrono>
+#include <fstream>
 
 
-struct Students {                                                               
-    std::string first_name;                                                          
-    std::string last_name;                                                           
+using std::cout;
+using std::endl;
+using std::setw;
+using std::left;
+using std::vector;
+using std::ofstream;
+using std::ifstream;
+using std::string;
 
-    std::vector<unsigned> scores;
+
+struct Student {                                                               
+    string first_name;                                                          
+    string last_name;                                                           
+
+    vector<unsigned> scores;
 
     // Egzam score
     unsigned test_score;
@@ -44,11 +55,12 @@ struct Students {
 }; 
 
 
-bool is_valid_string(const std::string& foo);
-void print_students(const std::vector<Students>& students, int option);
+bool is_valid_string(const string& foo);
+void print_students(const vector<Student>& students, int option);
 bool is_valid_score(int grade);
-void calculate_scores(std::vector<Students>& students, unsigned option);
+void calculate_scores(vector<Student>& students, unsigned option);
 unsigned generate_random_score();
+bool compare_by_first_letter(const Student &a, const Student &b);
 
 
 #endif
