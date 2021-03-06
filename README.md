@@ -24,3 +24,7 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ## [v0.2](https://github.com/kuwanaba/OP_2/tree/v0.2) (06/03/2021)
  - Pridėta galimybė nuskaityti studentus iš failo
  - Outpute studentai yra surikiuojami pagal pavardes
+## [v0.3](https://github.com/kuwanaba/OP_2/tree/v0.3) (06/03/2021)
+ - Pridėtas exception'ų checkinimas atidarinėjant failą
+ - Kodas jau buvo splittintas į headerį, metodų source'ą ir main source failą
+ - Kode jau buvo naudojamos struktūros
