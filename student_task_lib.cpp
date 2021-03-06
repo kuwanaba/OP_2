@@ -18,12 +18,6 @@
 #include "student_task_lib.hpp"
 
 
-using std::cout;
-using std::endl;
-using std::setw;
-using std::left;
-using std::vector;
-
 
 bool is_valid_string(const std::string& foo)
 {
@@ -53,7 +47,7 @@ bool is_valid_score(int grade)
 
 
 
-void calculate_scores(vector<Students>& students, unsigned option)
+void calculate_scores(vector<Student>& students, unsigned option)
 {
     for (auto &student : students) {
 
@@ -67,6 +61,7 @@ void calculate_scores(vector<Students>& students, unsigned option)
             for (auto &score : student.scores) {
                 average += score;    
             }
+
             average /= student.scores.size();
 
             student.final_score = 0.4 * average + 0.6 * student.test_score;
@@ -92,7 +87,7 @@ void calculate_scores(vector<Students>& students, unsigned option)
 }
 
 
-void print_students(const vector<Students>& students, int option)
+void print_students(const vector<Student>& students, int option)
 {
     printf("\n%-20s%-20s%-20s\n", "Pavarde", "Vardas", 
             (option == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)");
@@ -100,10 +95,12 @@ void print_students(const vector<Students>& students, int option)
     string temp(55, '-');
     cout << temp << endl;
     for (const auto& student : students) {
-
+    
+        
         if (student.scores.empty())
             continue;
-
+        
+        
         printf("%-20s%-20s%-20.2f\n", student.last_name.c_str(), student.first_name.c_str(),
                                         student.final_score);
     }
@@ -119,4 +116,9 @@ unsigned generate_random_score()
     std::uniform_int_distribution<int> dist(1, 10);
 
     return dist(mt);
+}
+
+bool compare_by_first_letter(const Student &a, const Student &b)
+{
+    return a.last_name < b.last_name;
 }
