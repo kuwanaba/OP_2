@@ -321,6 +321,7 @@ int main(void)
     
     cout << endl;
     calculate_scores(students, option);
+    std::sort(students.begin(), students.end(), compare_by_first_letter);
     print_students(students, option);
 
     return 0;
