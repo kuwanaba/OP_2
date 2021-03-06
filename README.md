@@ -22,5 +22,5 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ## [v0.1_vectors](https://github.com/kuwanaba/OP_2/tree/v0.1_vectors) (04/03/2021)
  - Implementuota naudojant vektorius
 ## [v0.2](https://github.com/kuwanaba/OP_2/tree/v0.2) (06/03/2021)
- - Pridėda galimybė nuskaityti studentus iš failo
+ - Pridėta galimybė nuskaityti studentus iš failo
  - Outpute studentai yra surikiuojami pagal pavardes
