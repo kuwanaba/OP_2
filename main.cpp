@@ -54,7 +54,18 @@ int main(void)
 
     if (selection == "y") {
         
-        ifstream student_file ("kursiokai.txt");
+        ifstream student_file;
+        student_file.exceptions(ifstream::failbit | ifstream::badbit);
+
+        try {
+            
+            student_file.open("kursiokai.txt");
+        }
+        catch (ifstream::failure e) {
+            
+            std::cerr << "Exception opening file.\n";
+        }
+
         if (student_file.is_open()) {
 
             cout << endl;
@@ -105,12 +116,6 @@ int main(void)
             print_students(students, option);
             student_file.close();
         }
-        else {
-            
-            cout << "Unable to open file\n";
-            return -1;
-        }
-        return 0;
     }
 
 
