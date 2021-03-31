@@ -61,6 +61,8 @@ bool is_valid_score(int grade);
 void calculate_scores(vector<Student>& students, unsigned option);
 unsigned generate_random_score();
 bool compare_by_first_letter(const Student &a, const Student &b);
+void generate_random_list(vector<Student>& students, int amount);
+bool compare_by_final_score(const Student &a, const Student &b);
 
 
 #endif

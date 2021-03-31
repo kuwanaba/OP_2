@@ -118,7 +118,37 @@ unsigned generate_random_score()
     return dist(mt);
 }
 
+
+void generate_random_list(vector<Student>& students, int amount)
+{
+    unsigned num_of_scores = generate_random_score();
+    for (int i = 0; i < amount; i++) {
+        Student student;
+
+        student.first_name = "Vardas";
+        student.first_name += std::to_string(i + 1);
+
+        student.last_name = "Pavarde";
+        student.last_name += std::to_string(i + 1);
+
+
+        for (int i{}; i < num_of_scores; i++) {
+            student.scores.push_back(generate_random_score());
+        }
+
+        student.test_score = generate_random_score();
+
+        students.push_back(student);
+    }
+}
+
 bool compare_by_first_letter(const Student &a, const Student &b)
 {
     return a.last_name < b.last_name;
+}
+
+
+bool compare_by_final_score(const Student &a, const Student &b)
+{
+    return a.final_score < b.final_score;
 }

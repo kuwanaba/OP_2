@@ -38,10 +38,104 @@ int main(void)
     size_t student_iterator = 0;
 
 
-    cout << "\nAr norite nuskaityti duomenis iš failo?(y/n)\n";
+    cout << "\nAr norite sugeneruoti penktis atsitiktinius studentų sąrašus?(y/n)\n";
     cout << " - ";
 
     string selection;
+    cin >> selection;
+    while (selection != "y" && selection != "n") {
+        cout << "\nBandykite dar kartą.\n";
+        cout << " - ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cin >> selection;
+    }
+
+
+    // Generating a random student list
+    if (selection == "y") {
+
+        vector<Student> students_random; 
+        generate_random_list(students_random, 1000); 
+        calculate_scores(students_random, 1);
+        std::sort(students_random.begin(), students_random.end(), compare_by_final_score);
+        print_students(students_random, 1);
+
+
+        ofstream student_output_file_low("vargsiukai.txt");
+        ofstream student_output_file_high("kietiakai.txt");
+        
+
+        if (student_output_file_high.is_open()) {
+    
+
+            std::ostringstream ss;
+            ss << std::setw(20) << std::left << "Pavarde" 
+                << std::setw(20) << std::left << "Vardas";
+            for (int i{}; i < students_random[0].scores.size(); i++) {
+                ss << "\tND" << i + 1; 
+            }
+            ss << "\tEgzaminas" << "\tGalutinis(Vid/Med)\n";
+            student_output_file_high << ss.str();
+
+
+            for (int i{}; i < 500; i++) {
+                
+                std::ostringstream ss;
+                ss << std::setw(20) << std::left << students_random[i].last_name;
+                ss << std::setw(20) << std::left << students_random[i].first_name;
+
+               for (auto &score : students_random[i].scores) {
+                    ss << "\t" << score;
+               }
+
+                ss << "\t" << students_random[i].test_score;
+                ss << "\t" << students_random[i].final_score << endl;
+                student_output_file_high << ss.str();
+            }
+
+
+            student_output_file_high.close();
+        }
+
+        if (student_output_file_low.is_open()) {
+    
+
+            std::ostringstream ss;
+            ss << std::setw(20) << std::left << "Pavarde" 
+                << std::setw(20) << std::left << "Vardas";
+            for (int i{}; i < students_random[0].scores.size(); i++) {
+                ss << "\tND" << i + 1; 
+            }
+            ss << "\tEgzaminas" << "\tGalutinis(Vid/Med)\n";
+            student_output_file_low << ss.str();
+
+
+            for (int i = 500; i < 1000; i++) {
+
+                std::ostringstream ss;
+                ss << std::setw(20) << std::left << students_random[i].last_name;
+                ss << std::setw(20) << std::left << students_random[i].first_name;
+
+               for (auto &score : students_random[i].scores) {
+                    ss << "\t" << score;
+               }
+
+                ss << "\t" << students_random[i].test_score;
+                ss << "\t" << students_random[i].final_score << endl;
+                student_output_file_low << ss.str();
+            }
+
+
+            student_output_file_low.close();
+        }
+        return 0;
+    }
+
+
+    cout << "\nAr norite nuskaityti duomenis iš failo?(y/n)\n";
+    cout << " - ";
+
     cin >> selection;
     while ( selection != "y" && selection != "n") {
         cout << "\nBandykite dar kartą.\n";
