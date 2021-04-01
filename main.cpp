@@ -38,7 +38,7 @@ int main(void)
     size_t student_iterator = 0;
 
 
-    cout << "\nAr norite sugeneruoti penktis atsitiktinius studentų sąrašus?(y/n)\n";
+    cout << "\nAr norite sugeneruoti penkis atsitiktinius studentų sąrašus?(y/n)\n";
     cout << " - ";
 
     string selection;
@@ -75,7 +75,7 @@ int main(void)
             
             read_students_from_file(students, "test.txt");
             time = std::chrono::high_resolution_clock::now();
-            diff = stop - time;
+            diff = time - stop;
             stop = time;
             cout << student_amount 
                 << " elementų nuskaityti iš failo užtruko: " << diff.count() << "s\n";
@@ -110,7 +110,7 @@ int main(void)
             students.clear();
 
             time = std::chrono::high_resolution_clock::now();
-            diff = stop - time;
+            diff = time - stop;
             stop = time;
             cout << student_amount 
                 << " elementų surūšiuoti į dvi grupes užtruko: " << diff.count() << "s\n";
@@ -127,7 +127,7 @@ int main(void)
 
             diff = time - start;
             cout << endl << student_amount 
-                << " studentų skaičiaus testo užtruko: " << diff.count() << "s\n";
+                << " studentų skaičiaus testas užtruko: " << diff.count() << "s\n";
             cout << endl << endl;
         }
 
