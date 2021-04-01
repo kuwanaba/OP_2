@@ -24,3 +24,11 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ## [v0.2](https://github.com/kuwanaba/OP_2/tree/v0.2) (06/03/2021)
  - Pridėta galimybė nuskaityti studentus iš failo
  - Outpute studentai yra surikiuojami pagal pavardes
+## [v0.3](https://github.com/kuwanaba/OP_2/tree/v0.3) (06/03/2021)
+ - Pridėtas exception'ų checkinimas atidarinėjant failą
+ - Kodas jau buvo splittintas į headerį, metodų source'ą ir main source failą
+ - Kode jau buvo naudojamos struktūros
+## [v0.4](https://github.com/kuwanaba/OP_2/tree/v0.4) (01/04/2021)
+ - Pridėta galimybė sugeneruot studentų failus atsitiktinai
+ - Programa sugeneruoja 1000, 10000, 100000, 1000000, 10000000 studentų atskirai
+ - Išveda kiek laiko truko sukurt failą, įrašyt/nuskaityt duomenis į failą, surušiuot bei išvest į du skirtingus failus pagal pažymius
