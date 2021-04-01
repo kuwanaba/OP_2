@@ -51,84 +51,87 @@ int main(void)
         cin >> selection;
     }
 
-
+    cout << endl << endl;
     // Generating a random student list
     if (selection == "y") {
 
-        vector<Student> students_random; 
-        generate_random_list(students_random, 1000); 
-        calculate_scores(students_random, 1);
-        std::sort(students_random.begin(), students_random.end(), compare_by_final_score);
-        print_students(students_random, 1);
+        int student_amount = 100;
+        for (int i{}; i < 5; i++) {
+
+            student_amount *= 10;
+            
+            vector<Student> students_random; 
+            auto start = std::chrono::high_resolution_clock::now();
+
+            generate_random_list(students_random, student_amount); 
+            write_students_to_file(students_random, "test.txt");
+
+            auto time = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> diff = time - start;
+            auto stop = time;
+            cout << student_amount 
+                << " elementų failą sukurt užtruko: " << diff.count() << "s\n";
+            
+            
+            read_students_from_file(students, "test.txt");
+            time = std::chrono::high_resolution_clock::now();
+            diff = stop - time;
+            stop = time;
+            cout << student_amount 
+                << " elementų nuskaityti iš failo užtruko: " << diff.count() << "s\n";
 
 
-        ofstream student_output_file_low("vargsiukai.txt");
-        ofstream student_output_file_high("kietiakai.txt");
-        
+            calculate_scores(students, 1);
+            std::sort(students.begin(), students.end(), compare_by_final_score);
 
-        if (student_output_file_high.is_open()) {
-    
-
-            std::ostringstream ss;
-            ss << std::setw(20) << std::left << "Pavarde" 
-                << std::setw(20) << std::left << "Vardas";
-            for (int i{}; i < students_random[0].scores.size(); i++) {
-                ss << "\tND" << i + 1; 
-            }
-            ss << "\tEgzaminas" << "\tGalutinis(Vid/Med)\n";
-            student_output_file_high << ss.str();
+            vector<Student> students_low;
+            vector<Student> students_high;
 
 
-            for (int i{}; i < 500; i++) {
+            auto it = students.begin();
+            auto end = students.end();
+
+            for (; it != end; it++) {
                 
-                std::ostringstream ss;
-                ss << std::setw(20) << std::left << students_random[i].last_name;
-                ss << std::setw(20) << std::left << students_random[i].first_name;
+                if ((*it).final_score >= 5) {
+                    break;
+                }
 
-               for (auto &score : students_random[i].scores) {
-                    ss << "\t" << score;
-               }
 
-                ss << "\t" << students_random[i].test_score;
-                ss << "\t" << students_random[i].final_score << endl;
-                student_output_file_high << ss.str();
+                students_low.push_back(*it);
+            }
+
+            for (; it != end; it++) {
+                
+                students_high.push_back(*it);
             }
 
 
-            student_output_file_high.close();
+            students.clear();
+
+            time = std::chrono::high_resolution_clock::now();
+            diff = stop - time;
+            stop = time;
+            cout << student_amount 
+                << " elementų surūšiuoti į dvi grupes užtruko: " << diff.count() << "s\n";
+             
+
+            write_students_to_file(students_low, "vargšiukai.txt");
+            write_students_to_file(students_high, "kietiakiai.txt");
+
+
+            time = std::chrono::high_resolution_clock::now();
+            diff = time - stop;
+            cout << student_amount 
+                << " surūšiuotų studentų išvedimas į du failus užtruko: " << diff.count() << "s\n";
+
+            diff = time - start;
+            cout << endl << student_amount 
+                << " studentų skaičiaus testo užtruko: " << diff.count() << "s\n";
+            cout << endl << endl;
         }
 
-        if (student_output_file_low.is_open()) {
-    
 
-            std::ostringstream ss;
-            ss << std::setw(20) << std::left << "Pavarde" 
-                << std::setw(20) << std::left << "Vardas";
-            for (int i{}; i < students_random[0].scores.size(); i++) {
-                ss << "\tND" << i + 1; 
-            }
-            ss << "\tEgzaminas" << "\tGalutinis(Vid/Med)\n";
-            student_output_file_low << ss.str();
-
-
-            for (int i = 500; i < 1000; i++) {
-
-                std::ostringstream ss;
-                ss << std::setw(20) << std::left << students_random[i].last_name;
-                ss << std::setw(20) << std::left << students_random[i].first_name;
-
-               for (auto &score : students_random[i].scores) {
-                    ss << "\t" << score;
-               }
-
-                ss << "\t" << students_random[i].test_score;
-                ss << "\t" << students_random[i].final_score << endl;
-                student_output_file_low << ss.str();
-            }
-
-
-            student_output_file_low.close();
-        }
         return 0;
     }
 
@@ -148,51 +151,7 @@ int main(void)
 
     if (selection == "y") {
         
-        ifstream student_file;
-        student_file.exceptions(ifstream::failbit | ifstream::badbit);
-
-        try {
-            
-            student_file.open("kursiokai.txt");
-        }
-        catch (ifstream::failure e) {
-            
-            std::cerr << "Exception opening file.\n";
-        }
-
-        if (student_file.is_open()) {
-
-            cout << endl;
-            string line;
-            
-            // Skip the first line
-            getline(student_file, line);
-
-            while (getline(student_file, line) && !line.empty()) {
-
-
-                std::istringstream ss(line);
-
-                Student student;
-                ss >> student.first_name;
-                ss >> student.last_name;
-
-                
-                unsigned score;
-                while (ss >> score) {
-                    student.scores.push_back(score);
-                }
-
-                // After reading all of the scores thaat are present on a line
-                // we assign the last one which is acutally the test score
-                // to the appropriate member and pop it out of the wrong vector
-                student.test_score = score;
-                student.scores.pop_back();
-
-
-                students.push_back(student); 
-            }
-
+            read_students_from_file(students, "studentai.txt");
 
             cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
             cout << " - ";
@@ -208,8 +167,8 @@ int main(void)
             calculate_scores(students, option);
             std::sort(students.begin(), students.end(), compare_by_first_letter);
             print_students(students, option);
-            student_file.close();
-        }
+
+            students.clear();
     }
 
 

@@ -137,6 +137,7 @@ void generate_random_list(vector<Student>& students, int amount)
         }
 
         student.test_score = generate_random_score();
+        student.final_score = 0;
 
         students.push_back(student);
     }
@@ -151,4 +152,102 @@ bool compare_by_first_letter(const Student &a, const Student &b)
 bool compare_by_final_score(const Student &a, const Student &b)
 {
     return a.final_score < b.final_score;
+}
+
+
+void read_students_from_file(vector<Student>& students, string file_name)
+{
+    ifstream student_file;
+
+    try {
+        student_file.open(file_name);
+    }
+    catch (ifstream::failure e) {
+        std::cerr << "Exception opening file.\n";
+    }
+
+
+    if (student_file.is_open()) {
+        
+
+        string line;
+        
+        // Skip the first line
+        getline(student_file, line);
+
+        while (getline(student_file, line) && !line.empty()) {
+
+
+            std::istringstream ss(line);
+
+            Student student;
+            ss >> student.first_name;
+            ss >> student.last_name;
+
+            
+            unsigned score;
+            while (ss >> score) {
+                student.scores.push_back(score);
+            }
+
+            // After reading all of the scores thaat are present on a line
+            // we assign the last one which is acutally the test score
+            // to the appropriate member and pop it out of the wrong vector
+            student.test_score = score;
+            student.scores.pop_back();
+
+
+            students.push_back(student); 
+        }
+
+        student_file.close();
+    }
+}
+
+
+void write_students_to_file(const vector<Student>& students, string file_name)
+{
+    ofstream student_file;
+
+    try {
+        student_file.open(file_name);
+    }
+    catch (ofstream::failure e) {
+        std::cerr << "Exception opening file.\n";
+    }
+
+
+    if (student_file.is_open()) {
+        
+        std::ostringstream ss;
+        ss << std::setw(20) << std::left << "Pavarde" 
+            << std::setw(20) << std::left << "Vardas";
+        for (int i{}; i < students[0].scores.size(); i++) {
+            ss << "\tND" << i + 1; 
+        }
+        ss << "\tEgz";
+
+        students[0].final_score == 0 ?  ss << std::endl : ss << "\t\tGalutinis\n";
+        student_file << ss.str();
+
+
+        for (auto &student : students) {
+
+            std::ostringstream ss;
+            ss << std::setw(20) << std::left << student.last_name;
+            ss << std::setw(20) << std::left << student.first_name;
+
+           for (auto &score : student.scores) {
+                ss << "\t" << score;
+           }
+
+            ss << "\t" << student.test_score;
+            student.final_score == 0 ? ss << endl :
+                ss << "\t\t" << std::setprecision(2) << student.final_score << endl;
+            student_file << ss.str();
+        }
+
+
+        student_file.close();
+    }
 }
