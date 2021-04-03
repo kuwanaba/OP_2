@@ -61,6 +61,7 @@ struct Student {
 
 
 bool is_valid_string(const string& foo);
+bool is_digit(const std::string& foo);
 bool is_valid_score(int grade);
 
 

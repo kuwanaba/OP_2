@@ -26,11 +26,23 @@ bool is_valid_string(const std::string& foo)
         return false;
 
     for (std::size_t i{}; i < foo.length() && valid; i++) {
-       if (!(std::isalpha(foo[i]) || std::isspace(foo[i]))) {
+       if (!(std::isalnum(foo[i]) || std::isspace(foo[i]))) {
               valid = false; 
        }
     } 
     
+    return valid;
+}
+
+
+bool is_digit(const std::string& foo)
+{
+    bool valid = true;
+    for (std::size_t i{}; i < foo.length() && valid; i++) {
+       if (!isdigit(foo[i]))
+           valid = false;
+    }
+
     return valid;
 }
 

@@ -17,10 +17,6 @@
  */
 
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
-// TODO: Explore ways of changing how the program iterates the vectors
-// TODO: Explore ways of refactoring the code so that the program doesn't act
-//       in a linear way and the user has more control of what and when to do
-
 
 #include "../include/student_task_lib.hpp"
 
@@ -38,38 +34,74 @@ int main(void)
     cout << "Studentų informacinė programa.\n\n";
     cout << "Meniu:\n"
         << " - Sugeneruoti penkis atistiktinius studentų sarašus ir atlikti testus naudojant vektorius\n"
-        << "   1 - naudojant vektorių\n"
-        << "   2 - naudojant sąrašą\n"
-        << "   3 - naudojant deką\n"
-        << "4 - Atspausdinti studentų sąrašą\n"
+        << "   11 - naudojant vektorių\n"
+        << "   12 - naudojant sąrašą\n"
+        << "   13 - naudojant deką\n"
+        << "2 - Įvesti duomenis apie studentą\n"
+        << "3 - Suskaičiuoti galutinius pažymius\n"
+        << "4 - Nuskaityti studentus iš failo \"studentai.txt\"\n"
+        << "p - Atspausdinti studentų sąrašą\n"
+
         << "5 - Pakartoti meniu\n"
         << "Norėdami baigį programą įveskite -1\n";
 
-
     int menu_selection;
-    //int option;
     while (1) {
 
 
+        /*
         cout << endl << endl; 
         cout << "> ";
-        while (!(cin >> menu_selection) || !(-1 <= menu_selection && menu_selection <= 5)) {
+        while (!(cin >> menu_selection)) {
 
             cout << "\nNeteisingas pasirinkimas.\n";
             cout << " - ";
-            cin.clear();
-            cin.ignore(10000, '\n');
         }  
+        */
+        
+        cout << endl << endl;
+        cout << "> ";
+        string foo;
+        do {
+            getline(cin, foo);
+
+            if (is_valid_string(foo)) {
+                
+                if (foo.size() == 1) {
+                    
+                    if (std::isdigit(foo[0])) {
+                        menu_selection = stoi(foo);
+                        break;
+                    }
+
+                    if (foo[0] == 'p') {
+                        menu_selection = 55;
+                        break;
+                    }
+
+                    if (foo[0] == 'x') {
+                        menu_selection = -1;
+                        break;
+                    }
+                }
+                
+                if (foo.size() == 2 && is_digit(foo)) {
+                    menu_selection = stoi(foo);
+                    break;
+                }
+            }
+
+        } while (true);
 
 
         switch (menu_selection) {
 
-            case 1: {
+            case 11: {
                 
                 int student_amount = 100;
 
 
-                for (int i{}; i < 5; i++) {
+                for (int i{}; i < 1; i++) {
 
                     student_amount *= 10;
 
@@ -120,7 +152,7 @@ int main(void)
 
                 break;
             }
-            case 2: {
+            case 12: {
                 
                 int student_amount = 100;
 
@@ -176,7 +208,7 @@ int main(void)
 
                 break;
             }
-            case 3: {
+            case 13: {
                 
                 int student_amount = 100;
 
@@ -233,7 +265,206 @@ int main(void)
                 break;
             }
 
+
+            case 2: {
+               
+
+                cout << "Įveskite studento vardą.\n"; 
+                cout << "> ";
+
+                Student student;
+                do {
+                    string foo;
+                    getline(cin, foo);
+
+                    if (is_valid_string(foo)) {
+
+                        student.first_name = foo;
+                        break;
+
+                    } else {
+                        cout << "\nNeteisingai įvestas vardas, bandykite dar kartelį.\n";
+                        cout << " - ";
+                    }
+
+                } while (true);
+
+
+                cout << "\nĮveskite studento pavardę\n"; 
+                cout << "> ";
+                do {
+                    string foo;
+                    getline(cin, foo);
+
+                    if (is_valid_string(foo)) {
+                        student.last_name = foo;
+                        break;
+
+                    } else {
+                        cout << "\nNeteisingai įvesta pavardė, bandykite dar kartelį.\n";
+                        cout << " - ";
+                    }
+
+                } while (true);
+
+                
+
+                //-----------------------------------------------------------------------------
+                // Inputting scores
+                
+                cout << "\nAr norite sugeneruoti namų darbų rezultatus atsitiktinai?(y/n).\n";
+                cout << " - ";
+                string selection;
+                cin >> selection;
+                while (selection != "y" && selection != "n") {
+                    cout << "\nBandykite dar kartą.\n";
+                    cout << " - ";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                    cin >> selection;
+                }
+
+                if (selection == "y") {
+                    
+
+                    cout << "\nKiek norite skaičių sugeneruoti (nuo 1 iki 10)?\n";
+                    cout << " - "; 
+
+
+                    int amount;
+                    while (!(cin >> amount) || !(1 <= amount && amount <= 10)) {
+
+                        cout << "\nNeteisingai įvestas kiekis.\n";
+                        cout << " - ";
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }  
+                    
+                    cout << "\nNamu darbų pažymiai: "; 
+                    int score;
+                    for (int i{}; i < amount; i++) {
+                        score = generate_random_score();
+                        student.scores.push_back(score);
+                        cout << score << " ";
+                    }
+                    cout << endl;
+                } 
+
+                else {
+
+                    cout << "\nJei norite baigti įvedimą įveskite '-1'\n";
+                    cout << "Įveskite namu darbų rezultatus.\n";
+
+                    int score;
+                    while (true) {
+                        
+
+                        cout << " - ";
+                        while (!(cin >> score)) {
+
+                            cout << "\nNeteisingai įvestas pažymys.\n";
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                        }  
+
+                        if (score == -1) {
+                            break;
+                        }
+                        else if (0 < score && score <= 10) {
+                            student.scores.push_back(score);
+
+                        }
+                        else {
+
+                            cout << "\nNeteisingai įvestas pažymys.\n";
+                            cout << " - ";
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                        }
+                    }
+                }
+
+
+                // If no values were inputted for a student skip the test score
+                if (student.scores.size() == 0) {
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+
+                cout << "\nAr norite sugeneruoti egzamino rezultatą atsitiktinai?(y/n).\n";
+                cout << " - ";
+                cin >> selection;
+                while (selection != "y" && selection != "n") {
+                    cout << "\nBandykite dar kartą\n";
+                    cout << " - ";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+
+                    cin >> selection;
+                }
+
+                if (selection == "y") {
+                    
+                    student.test_score = generate_random_score();
+                    cout << "\nEgzamino pažymys: " << student.test_score << endl;
+                }
+                else {
+
+                    cout << "\nĮveskite egzamino rezultatą.\n";
+                    unsigned score;
+                    while (true) {
+
+                        cout << " - ";
+                        while (!(cin >> score) || !(1 <= score && score <= 10)) {
+
+                            cout << "\nNeteisingai įvestas pažymys.\n";
+                            cout << " - ";
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                        }  
+
+                        student.test_score = score;
+                        break;
+                    }
+                }
+
+
+                students_v.push_back(student);
+
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << endl;
+
+                break;
+            }
+
+
+            case 3: {
+                
+                if (students_v.empty()) {
+                    cout << "\nNeįvestas nei vienas studentas.\n";
+                    break;
+                }
+
+                
+                for (auto &student : students_v) {
+                    
+                    calculate_finals(student);
+                }
+                break;
+            }
+
+
             case 4: {
+
+                read_students_vector_from_file(students_v, "studentai.txt");
+                break;
+            }
+
+            case 55: {
 
 
                 print_students_vector(students_v);
@@ -292,6 +523,13 @@ int main(void)
                 exit(EXIT_SUCCESS);
                 break;
             }
+
+            default: {
+                
+                cout << "Neteisinga įvestis.\n";
+                cout << "Jei dar kartą norite pamatyti meniu įveskite \"5\"\n";
+                break;
+            }
         }
     }
 
@@ -301,94 +539,12 @@ int main(void)
     size_t student_iterator = 0;
 
 
-    cout << "\nAr norite nuskaityti duomenis iš failo?(y/n)\n";
-    cout << " - ";
-
-    cin >> selection;
-    while ( selection != "y" && selection != "n") {
-        cout << "\nBandykite dar kartą.\n";
-        cout << " - ";
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cin >> selection;
-    }
-
-
-    vector<Student> students;
-    if (selection == "y") {
-        
-            read_students_from_file(students, "studentai.txt");
-
-            cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
-            cout << " - ";
-            unsigned option;
-            while (!(cin >> option)) {
-                cout << "\nĮveskite arba 1 arba 2.\n";
-                cout << " - ";        
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
-
-            
-            calculate_scores(students, option);
-            std::sort(students.begin(), students.end(), compare_by_first_letter);
-            print_students(students, option);
-
-            students.clear();
-    }
 
 
     cin.clear();
     cin.ignore(10000, '\n');
     while (inputing_data) {
 
-        cout << "\nJei norite baigti įvedimą įveskite 'x'\n";
-        cout << "Įveskite studento vardą.\n"; 
-        cout << " - ";
-
-        Student student;
-        do {
-            string foo;
-            getline(cin, foo);
-
-            if (is_valid_string(foo)) {
-
-                // Checking to see if user indicate end of student input
-                if (foo == "x") {
-                    inputing_data = false;
-                    break;
-                }
-                student.first_name = foo;
-                break;
-
-            } else {
-                cout << "\nNeteisingai įvestas vardas, bandykite dar kartelį.\n";
-                cout << " - ";
-            }
-
-        } while (true);
-
-
-        // End of student info input
-        if (!inputing_data)
-            break;
-
-        cout << "\nĮveskite studento pavardę\n"; 
-        cout << " - ";
-        do {
-            string foo;
-            getline(cin, foo);
-
-            if (is_valid_string(foo)) {
-                student.last_name = foo;
-                break;
-
-            } else {
-                cout << "\nNeteisingai įvesta pavardė, bandykite dar kartelį.\n";
-                cout << " - ";
-            }
-
-        } while (true);
 
 
 
@@ -396,157 +552,11 @@ int main(void)
         // Inputting student scores
 
 
-        cout << "\nAr norite sugeneruoti namų darbų rezultatus atsitiktinai?(y/n).\n";
-        cout << " - ";
-        string selection;
-        cin >> selection;
-        while (selection != "y" && selection != "n") {
-            cout << "\nBandykite dar kartą.\n";
-            cout << " - ";
-            cin.clear();
-            cin.ignore(10000, '\n');
-
-            cin >> selection;
-        }
-
-        if (selection == "y") {
-            
-
-            cout << "\nKiek norite skaičių sugeneruoti (nuo 1 iki 10)?\n";
-            cout << " - "; 
-
-
-            unsigned amount;
-            while (!(cin >> amount) || !(1 <= amount && amount <= 10)) {
-
-                cout << "\nNeteisingai įvestas kiekis.\n";
-                cout << " - ";
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }  
-            
-            cout << "\nNamu darbų pažymiai: "; 
-            unsigned score;
-            for (int i{}; i < amount; i++) {
-                score = generate_random_score();
-                student.scores.push_back(score);
-                cout << score << " ";
-            }
-            cout << endl;
-        } 
-
-        else {
-
-            cout << "\nJei norite baigti įvedimą įveskite '-1'\n";
-            cout << "Įveskite namu darbų rezultatus.\n";
-
-            int score;
-            while (true) {
-                
-
-                cout << " - ";
-                while (!(cin >> score)) {
-
-                    cout << "\nNeteisingai įvestas pažymys.\n";
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                }  
-
-                if (score == -1) {
-                    break;
-                }
-                else if (0 < score && score <= 10) {
-                    student.scores.push_back(score);
-
-                }
-                else {
-
-                    cout << "\nNeteisingai įvestas pažymys.\n";
-                    cout << " - ";
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                }
-            }
-        }
-
-
-        // If no values were inputted for a student skip the test score
-        if (student.scores.size() == 0) {
-            cin.clear();
-            cin.ignore(10000, '\n');
-            continue;
-        }
-
-
-        cout << "\nAr norite sugeneruoti egzamino rezultatą atsitiktinai?(y/n).\n";
-        cout << " - ";
-        cin >> selection;
-        while (selection != "y" && selection != "n") {
-            cout << "\nBandykite dar kartą\n";
-            cout << " - ";
-            cin.clear();
-            cin.ignore(10000, '\n');
-
-            cin >> selection;
-        }
-
-        if (selection == "y") {
-            
-            student.test_score = generate_random_score();
-            cout << "\nEgzamino pažymys: " << student.test_score << endl;
-        }
-        else {
-
-            cout << "\nĮveskite egzamino rezultatą.\n";
-            unsigned score;
-            while (true) {
-
-                cout << " - ";
-                while (!(cin >> score) || !(1 <= score && score <= 10)) {
-
-                    cout << "\nNeteisingai įvestas pažymys.\n";
-                    cout << " - ";
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                }  
-
-                student.test_score = score;
-                break;
-            }
-        }
-
-
-        students.push_back(student);
-
-        cin.clear();
-        cin.ignore(10000, '\n');
-        student_iterator++;
-        cout << endl;
-    } 
 
     //------------------------------------------------------------------------
     // Calculating averages
     
 
-    if (students.empty()) {
-        cout << "\nNeįvestas nei vienas studentas.\n";
-        return 0;
-    }
-
-    cout << "\nAr norite skaičiuoti vidurkį(1) ar medianą(2)?\n";
-    cout << " - ";
-    unsigned option;
-    while (!(cin >> option)) {
-        cout << "\nĮveskite arba 1 arba 2.\n";
-        cout << " - ";        
-        cin.clear();
-        cin.ignore(10000, '\n');
-    }
-    
-    cout << endl;
-    calculate_scores(students, option);
-    std::sort(students.begin(), students.end(), compare_by_first_letter);
-    print_students(students, option);
 
     return 0;
     */
