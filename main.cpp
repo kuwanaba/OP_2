@@ -32,7 +32,6 @@ using std::string;
 int main(void)
 {
      
-    vector<Student> students;
 
     bool inputing_data = true;
     size_t student_iterator = 0;
@@ -61,6 +60,10 @@ int main(void)
             student_amount *= 10;
             
             vector<Student> students_random; 
+            vector<Student> students;
+            vector<Student> students_low;
+
+            
             auto start = std::chrono::high_resolution_clock::now();
 
             generate_random_list(students_random, student_amount); 
@@ -84,30 +87,12 @@ int main(void)
             calculate_scores(students, 1);
             std::sort(students.begin(), students.end(), compare_by_final_score);
 
-            vector<Student> students_low;
-            vector<Student> students_high;
 
-
-            auto it = students.begin();
-            auto end = students.end();
-
-            for (; it != end; it++) {
+            while (students.begin()->final_score < 5) {
                 
-                if ((*it).final_score >= 5) {
-                    break;
-                }
-
-
-                students_low.push_back(*it);
+                students_low.push_back(*students.begin());
+                students.erase(students.begin());
             }
-
-            for (; it != end; it++) {
-                
-                students_high.push_back(*it);
-            }
-
-
-            students.clear();
 
             time = std::chrono::high_resolution_clock::now();
             diff = time - stop;
@@ -117,7 +102,7 @@ int main(void)
              
 
             write_students_to_file(students_low, "vargšiukai.txt");
-            write_students_to_file(students_high, "kietiakiai.txt");
+            write_students_to_file(students, "kietiakiai.txt");
 
 
             time = std::chrono::high_resolution_clock::now();
@@ -149,6 +134,7 @@ int main(void)
     }
 
 
+    vector<Student> students;
     if (selection == "y") {
         
             read_students_from_file(students, "studentai.txt");

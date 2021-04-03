@@ -82,6 +82,9 @@ void calculate_scores(vector<Student>& students, unsigned option)
                     median = *mid;
             }
             student.final_score = 0.4 * median + 0.6 * student.test_score;
+
+            // Rounding final score to two decimal places
+            student.final_score = (float)((int)(student.final_score * 100 + 0.5) / 100);
         }
     }
 }
