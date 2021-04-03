@@ -43,3 +43,5 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ![](test_vector.png)
 ![](test_list.png)
 ![](test_deque.png)
+
+ - Testai atlikti ant ThinkPad E480 (i5-8250U, 8GB RAM, 512SSD)
