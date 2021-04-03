@@ -33,10 +33,10 @@ int main(void)
 
     cout << "Studentų informacinė programa.\n\n";
     cout << "Meniu:\n"
-        << " - Sugeneruoti penkis atistiktinius studentų sarašus ir atlikti testus naudojant vektorius\n"
-        << "   11 - naudojant vektorių\n"
-        << "   12 - naudojant sąrašą\n"
-        << "   13 - naudojant deką\n"
+        << " 1 - Sugeneruoti penkis atistiktinius studentų failus\n"
+        << "   11 - atlikti testus naudojant vektorių\n"
+        << "   12 - atlikti testus naudojant sąrašą\n"
+        << "   13 - atlikti testus naudojant deką\n"
         << "2 - Įvesti duomenis apie studentą\n"
         << "3 - Suskaičiuoti galutinius pažymius\n"
         << "4 - Nuskaityti studentus iš failo \"studentai.txt\"\n"
@@ -46,6 +46,7 @@ int main(void)
         << "Norėdami baigį programą įveskite -1\n";
 
     int menu_selection;
+    bool files_generated = false;
     while (1) {
 
 
@@ -96,22 +97,41 @@ int main(void)
 
         switch (menu_selection) {
 
+            case 1: {
+                
+                int student_amount = 100;
+                for (int i{}; i < 5; i++) {
+                    student_amount *= 10;
+                    generate_student_vector(students_v, student_amount, 5);
+                    write_students_vector_to_file(students_v, 
+                            "studentai" + std::to_string(student_amount) + ".txt");
+                    
+                    cout << "Sukurtas failas: studentai" << student_amount << ".txt" << endl;
+                }
+                files_generated = true;
+                break;
+            }
+
             case 11: {
                 
                 int student_amount = 100;
 
+                if (!files_generated) {
+                    cout << "Sugeneruokite failus (1) meniu punktu\n";
+                    break;
+                }
 
-                for (int i{}; i < 1; i++) {
+                for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
 
-                    generate_student_vector(students_v, student_amount, 5);
-                    write_students_vector_to_file(students_v, "studentai.txt");
-                    students_v.clear();
+                    string file_name("studentai");
+                    file_name += std::to_string(student_amount);
+                    file_name += ".txt";
 
-                    
+
                     auto start = std::chrono::high_resolution_clock::now(); 
-                    read_students_vector_from_file(students_v, "studentai.txt");
+                    read_students_vector_from_file(students_v, file_name);
                     auto time = std::chrono::high_resolution_clock::now();
                     std::chrono::duration<double> diff = time - start;
                     auto stop = time;
@@ -156,18 +176,22 @@ int main(void)
                 
                 int student_amount = 100;
 
+                if (!files_generated) {
+                    cout << "Sugeneruokite failus (1) meniu punktu\n";
+                    break;
+                }
+
                 list<Student> student_list;
                 for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
-
-                    generate_student_list(student_list, student_amount, 5);
-                    write_students_list_to_file(student_list, "studentai_list.txt");
-                    student_list.clear();
+                    string file_name("studentai");
+                    file_name += std::to_string(student_amount);
+                    file_name += ".txt";
 
                     
                     auto start = std::chrono::high_resolution_clock::now(); 
-                    read_students_list_from_file(student_list, "studentai_list.txt");
+                    read_students_list_from_file(student_list, file_name);
                     auto time = std::chrono::high_resolution_clock::now();
                     std::chrono::duration<double> diff = time - start;
                     auto stop = time;
@@ -212,18 +236,22 @@ int main(void)
                 
                 int student_amount = 100;
 
+                if (!files_generated) {
+                    cout << "Sugeneruokite failus (1) meniu punktu\n";
+                    break;
+                }
+
                 deque<Student> student_deque;
                 for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
+                    string file_name("studentai");
+                    file_name += std::to_string(student_amount);
+                    file_name += ".txt";
 
-                    generate_student_deque(student_deque, student_amount, 5);
-                    write_students_deque_to_file(student_deque, "studentai_deque.txt");
-                    student_deque.clear();
 
-                    
                     auto start = std::chrono::high_resolution_clock::now(); 
-                    read_students_deque_from_file(student_deque, "studentai_deque.txt");
+                    read_students_deque_from_file(student_deque, file_name);
                     auto time = std::chrono::high_resolution_clock::now();
                     std::chrono::duration<double> diff = time - start;
                     auto stop = time;
@@ -466,7 +494,10 @@ int main(void)
 
             case 55: {
 
-
+                if (students_v.empty()) {
+                    cout << "Studentų sąrašas tuščias\n";
+                    break;
+                }
                 print_students_vector(students_v);
 
                 /*
