@@ -9,8 +9,8 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 
  - `git clone git@github.com:kuwanaba/OP_2.git`
  - `cd OP_2`
- - `g++ main.cpp student_task_lib.cpp -o main`
- - `/.main`
+ - `make`
+ - `./bin/main`
  
  
 ## Changelog
