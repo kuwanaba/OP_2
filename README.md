@@ -34,3 +34,11 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
  - Išveda kiek laiko truko sukurt failą, įrašyt/nuskaityt duomenis į failą, surušiuot bei išvest į du skirtingus failus pagal pažymius
 
 ![](demo.png)
+
+## [v0.5](https://github.com/kuwanaba/OP_2/tree/v0.5) (03/04/2021)
+ - Kodas pertvarkytas, naudotojui suteiktas meniu su galimybe rinktis tolimesnius veiksmus
+ - Pridėta galimybė sugeneruoti didelių apimčių sarašus/vektorius/dekus ir išmatuoti jų nuskaitymo iš failų bei grupavimo į dalis greičius
+
+![](test_vector.png)
+![](test_list.png)
+![](test_deque.png)
