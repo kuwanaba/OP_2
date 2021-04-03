@@ -10,7 +10,7 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
  - `git clone git@github.com:kuwanaba/OP_2.git`
  - `cd OP_2`
  - `make`
- - `/bin/main`
+ - `./bin/main`
  
  
 ## Changelog
@@ -38,6 +38,7 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ## [v0.5](https://github.com/kuwanaba/OP_2/tree/v0.5) (03/04/2021)
  - Kodas pertvarkytas, naudotojui suteiktas meniu su galimybe rinktis tolimesnius veiksmus
  - Pridėta galimybė sugeneruoti didelių apimčių sarašus/vektorius/dekus ir išmatuoti jų nuskaitymo iš failų bei grupavimo į dalis greičius
+ - Pridėtas makefile'as leidžiantis paprasčiau sukompiliuoti reikalingus failus
 
 ![](test_vector.png)
 ![](test_list.png)
