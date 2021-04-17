@@ -140,7 +140,7 @@ int main(void)
                 int student_amount = 100;
 
 
-                for (int i{}; i < 3; i++) {
+                for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
 
@@ -240,7 +240,7 @@ int main(void)
 
 
                 list<Student> student_list;
-                for (int i{}; i < 3; i++) {
+                for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
                     string file_name("studentai");
@@ -339,7 +339,7 @@ int main(void)
 
 
                 deque<Student> student_deque;
-                for (int i{}; i < 3; i++) {
+                for (int i{}; i < 5; i++) {
 
                     student_amount *= 10;
                     string file_name("studentai");
