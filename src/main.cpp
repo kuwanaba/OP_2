@@ -43,7 +43,7 @@ int main(void)
         << "p - Atspausdinti studentų sąrašą\n"
 
         << "5 - Pakartoti meniu\n"
-        << "Norėdami baigį programą įveskite -1\n";
+        << "Norėdami baigį programą įveskite x\n";
 
     int menu_selection;
     bool files_generated = false;
@@ -541,11 +541,19 @@ int main(void)
 
             case 5: {
 
+                cout << "Studentų informacinė programa.\n\n";
                 cout << "Meniu:\n"
-                    << "1 - Sugeneruoti studentus atsitiktinai\n"
-                    << "2 - Atspausdinti studentų sąrašą\n"
+                    << " 1 - Sugeneruoti penkis atistiktinius studentų failus\n"
+                    << "   11 - atlikti testus naudojant vektorių\n"
+                    << "   12 - atlikti testus naudojant sąrašą\n"
+                    << "   13 - atlikti testus naudojant deką\n"
+                    << "2 - Įvesti duomenis apie studentą\n"
+                    << "3 - Suskaičiuoti galutinius pažymius\n"
+                    << "4 - Nuskaityti studentus iš failo \"studentai.txt\"\n"
+                    << "p - Atspausdinti studentų sąrašą\n"
+
                     << "5 - Pakartoti meniu\n"
-                    << "Norėdami baigį programą įveskite -1\n";
+                    << "Norėdami baigį programą įveskite x\n";
                 break;
             } 
 
