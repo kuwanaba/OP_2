@@ -19,6 +19,7 @@
 // TODO: Modify the program to react to empty new lines and output a '-' everytime
 
 #include "../include/student_task_lib.hpp"
+#include <fstream>
 
 
 using std::cin;
@@ -46,6 +47,7 @@ int main(void)
         << "Norėdami baigį programą įveskite x\n";
 
     int menu_selection;
+
     bool files_generated = false;
     while (1) {
 
@@ -100,7 +102,7 @@ int main(void)
             case 1: {
                 
                 int student_amount = 100;
-                for (int i{}; i < 5; i++) {
+                for (int i{}; i < 3; i++) {
                     student_amount *= 10;
                     generate_student_vector(students_v, student_amount, 5);
                     write_students_vector_to_file(students_v, 
@@ -113,13 +115,30 @@ int main(void)
             }
 
             case 11: {
-                
-                int student_amount = 100;
+
 
                 if (!files_generated) {
                     cout << "Sugeneruokite failus (1) meniu punktu\n";
                     break;
                 }
+
+
+                cout << "Pasirinkite realizacijos metodą:\n"
+                    << " 1 - naudojant du konteinerius\n"
+                    << " 2 - naudojant vieną konteinerį\n";
+                cout << "> ";
+
+                int implementation_option;
+                while (!(cin >> implementation_option)) {
+                    cout << "Klaida: įveskite skaičių (1/2):";
+                    cout << "> ";
+                    cin.clear();
+                    cin.ignore(123, '\n');
+                }
+
+                
+                int student_amount = 100;
+
 
                 for (int i{}; i < 5; i++) {
 
@@ -141,20 +160,44 @@ int main(void)
 
                     vector<Student> students_low;
                     vector<Student> students_high;
-                    std::sort(students_v.begin(), students_v.end(), compare_by_final_med);
 
 
-                    auto beg = students_v.begin();
-                    for (;;beg++) {
-                        if ((*beg).final_score_avg >= 5)
+                    switch (implementation_option) {
+                        case 1: {
+
+                            std::sort(students_v.begin(), students_v.end(), compare_by_final_med);
+                            auto beg = students_v.begin();
+
+                            for (;;beg++) {
+                                if ((*beg).final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(*beg);
+                            }
+
+                            for (; beg != students_v.end(); beg++) {
+                                students_high.push_back(*beg);
+                            }
                             break;
+                        }
 
-                        students_low.push_back(*beg);
+                        case 2: {
+                            
+                            std::sort(students_v.begin(), students_v.end(), compare_by_final_med_reverse);
+                            for (decltype(students_v.size()) i; i < students_v.size(); i++) {
+                                if (students_v[i].final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(students_v[i]);
+                                students_v.pop_back();
+                            }
+                            break;
+                        }
+
+                        default:
+                            break;
                     }
 
-                    for (; beg != students_v.end(); beg++) {
-                        students_high.push_back(*beg);
-                    }
 
 
                     time = std::chrono::high_resolution_clock::now();
@@ -173,13 +216,28 @@ int main(void)
                 break;
             }
             case 12: {
-                
-                int student_amount = 100;
 
                 if (!files_generated) {
                     cout << "Sugeneruokite failus (1) meniu punktu\n";
                     break;
                 }
+
+
+                cout << "Pasirinkite realizacijos metodą:\n"
+                    << " 1 - naudojant du konteinerius\n"
+                    << " 2 - naudojant vieną konteinerį\n";
+                cout << "> ";
+
+                int implementation_option;
+                while (!(cin >> implementation_option)) {
+                    cout << "Klaida: įveskite skaičių (1/2):";
+                    cout << "> ";
+                    cin.clear();
+                    cin.ignore(123, '\n');
+                }
+                
+                int student_amount = 100;
+
 
                 list<Student> student_list;
                 for (int i{}; i < 5; i++) {
@@ -204,16 +262,39 @@ int main(void)
                     student_list.sort(compare_by_final_med);
 
 
-                    auto beg = student_list.begin();
-                    for (;;beg++) {
-                        if ((*beg).final_score_avg >= 5)
+                    switch (implementation_option) {
+
+                        case 1: {
+                                
+                            auto beg = student_list.begin();
+                            for (;;beg++) {
+                                if ((*beg).final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(*beg);
+                            }
+
+                            for (; beg != student_list.end(); beg++) {
+                                students_high.push_back(*beg);
+                            }
                             break;
+                        }
 
-                        students_low.push_back(*beg);
-                    }
+                        case 2: {
 
-                    for (; beg != student_list.end(); beg++) {
-                        students_high.push_back(*beg);
+                            for (decltype(student_list.size()) i; i < student_list.size(); i++) {
+                                if (student_list.front().final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(student_list.front());
+                                student_list.pop_front();
+                            }
+                            break;
+                        }
+
+                        default:
+
+                            break;
                     }
 
 
@@ -233,13 +314,29 @@ int main(void)
                 break;
             }
             case 13: {
-                
-                int student_amount = 100;
+
 
                 if (!files_generated) {
                     cout << "Sugeneruokite failus (1) meniu punktu\n";
                     break;
                 }
+
+
+                cout << "Pasirinkite realizacijos metodą:\n"
+                    << " 1 - naudojant du konteinerius\n"
+                    << " 2 - naudojant vieną konteinerį\n";
+                cout << "> ";
+
+                int implementation_option;
+                while (!(cin >> implementation_option)) {
+                    cout << "Klaida: įveskite skaičių (1/2):";
+                    cout << "> ";
+                    cin.clear();
+                    cin.ignore(123, '\n');
+                }
+                
+                int student_amount = 100;
+
 
                 deque<Student> student_deque;
                 for (int i{}; i < 5; i++) {
@@ -263,17 +360,42 @@ int main(void)
                     deque<Student> students_high;
                     std::sort(student_deque.begin(), student_deque.end(), compare_by_final_med);
 
+                    
+                    switch (implementation_option) {
+                        
+                        case 1: {
 
-                    auto beg = student_deque.begin();
-                    for (;;beg++) {
-                        if ((*beg).final_score_avg >= 5)
+                            auto beg = student_deque.begin();
+                            for (;;beg++) {
+                                if ((*beg).final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(*beg);
+                            }
+
+                            for (; beg != student_deque.end(); beg++) {
+                                students_high.push_back(*beg);
+                            }
                             break;
+                        }
 
-                        students_low.push_back(*beg);
-                    }
+                        case 2: {
 
-                    for (; beg != student_deque.end(); beg++) {
-                        students_high.push_back(*beg);
+                            auto beg = student_deque.begin();
+                            for (;;beg++) {
+                                if ((*beg).final_score_avg >= 5)
+                                    break;
+
+                                students_low.push_back(*beg);
+                                student_deque.erase(beg);
+                            }
+                            break;
+                        }
+
+                        default: {
+
+                            break;
+                        }
                     }
 
 

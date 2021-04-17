@@ -77,6 +77,7 @@ void generate_student_deque(deque<Student> &students, int student_amount, int nu
 
 bool compare_by_final_avg(const Student &a, const Student &b);
 bool compare_by_final_med(const Student &a, const Student &b);
+bool compare_by_final_med_reverse(const Student &a, const Student &b);
 
 
 void print_students_vector(const vector<Student> &students);

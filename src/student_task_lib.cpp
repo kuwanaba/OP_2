@@ -279,6 +279,11 @@ bool compare_by_final_med(const Student &a, const Student &b)
     return a.final_score_med < b.final_score_med;
 }
 
+bool compare_by_final_med_reverse(const Student &a, const Student &b)
+{
+    return a.final_score_med > b.final_score_med;
+}
+
 
 void read_students_vector_from_file(vector<Student>& students, string file_name)
 {

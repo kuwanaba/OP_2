@@ -45,3 +45,7 @@ Po įvedimo išveda visus studentus kurie gavo pažymių lentelėje su vidurkiai
 ![](test_deque.png)
 
  - Testai atlikti ant ThinkPad E480 (i5-8250U, 8GB RAM, 512SSD)
+
+## [v1.0](https://github.com/kuwanaba/OP_2/tree/v1.0) (17/04/2021)
+ - Pridėta galimybė atlikti testus du skirtingais metodais: 1) naudojant du konteinerius; 2) naudojant vieną konteinerį
+ - Sutaisyti keletas bug'ų
